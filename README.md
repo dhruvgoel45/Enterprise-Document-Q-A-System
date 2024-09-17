@@ -1,99 +1,81 @@
-# Exact-RAG: Multimodal Retrieval-Augmented Generation :dart:
 
-Exact-RAG is a powerful multimodal model designed for Retrieval-Augmented Generation (RAG). It seamlessly integrates text, visual and audio information, allowing for enhanced content understanding and generation. This repository contains the source code, and example scripts to facilitate the usage and exploration of Exact-RAG.
+# Enterprise Document Q&A System (RAG) with Multi-Modal Input :dart:
+
+This project is an **Enterprise Document Q&A System** designed for **Retrieval-Augmented Generation (RAG)** with support for multi-modal inputs. It can ingest various document formats, such as **PDFs, spreadsheets, and emails**, and allows users to query the content using natural language. The system processes **text, images, and structured data (tables)**, providing accurate answers with references to the specific sections of the document. Powered by **Large Language Models (LLM)**, it integrates multiple inputs for a richer and more insightful user experience.
 
 ## Prerequisites
 
 * Python >= 3.10
-* Poetry ([Install](https://python-poetry.org/docs/))
+* **Poetry** ([Install Guide](https://python-poetry.org/docs/))
 
-#### LLMs
-* To use OpenAI models you need a valid key at this [link](https://platform.openai.com/api-key)
-* To use local LLM models you need Ollama. [Here](https://ollama.ai/download) the instructions to install
+#### Large Language Models (LLMs)
+* To use OpenAI models, you need a valid key. Generate one [here](https://platform.openai.com/api-key).
+* For local LLM models, install **Ollama**. Follow the installation instructions [here](https://ollama.ai/download).
 
 #### Ollama
-You should download a LLM model usin ollama. By default the `orca2` model is set in `settings.toml`, to download just run:
+To set up a local LLM, you can download the `orca2` model (set by default in `settings.toml`). To download and run the model:
 
 ```bash
 ollama run orca2
 ```
 
 #### Databases
-* To use Elasticsearch you should have a running cluster or you can use a test deployment using the [docker-es.sh](./scripts/docker-es.sh) script.
-
+* To use **Elasticsearch**, ensure a running cluster or use a test deployment via the [docker-es.sh](./scripts/docker-es.sh) script.
 
 ## Installation
 
-Clone the repository:
+Clone the repository and install the necessary dependencies using **Poetry**:
 
 ```bash
+git clone https://github.com/yourusername/enterprise-document-qa-system.git
+cd enterprise-document-qa-system
 poetry install # -E audio -E image
 ```
 
-* audio extra will install `openai-whisper` for speech-to-text
+* The `audio` extra installs **openai-whisper** for speech-to-text.
+* The `image` extra installs **transformers** and **pillow** for image captioning.
 
-* image extra will install `transformers` and `pillow` for image captioning
+> **Note**: Certain libraries used in this project may not run on Windows. It is highly recommended to use a **Linux** environment for smooth execution.
 
 ## Usage - Server
 
-First step is to modify the `settings.toml` file.
-
-Then starting the web server just running:
+1. Modify the `settings.toml` file as needed.
+2. Start the server by running:
 
 ```bash
 poetry run python exact_rag/main.py
 ```
 
-> NOTE: The first start up could required some time to download the selected models, expecially for image captioning
+> The first startup may take a while to download the models, especially for image captioning.
 
-## Usage - UI (Demo purpose)
+## Usage - UI (Demo)
 
-UI Demo is build upon `streamlit` and it is made just to demo purposes.
-If you want to run locally to quick try eXact-RAG features, be sure to have install the packege with `dev` dependencies, and then:
+The demo UI is built with **Streamlit**. To quickly try the features locally, ensure the `dev` dependencies are installed, then run:
 
 ```bash
 poetry run streamlit run frontend/ui.py
 ```
 
-## Examples
+## Example Use Cases
 
-You can find some examples of usage in the examples [folder](./examples/)
+Find usage examples in the [examples](./examples/) folder. Here are two notable cases:
 
-Chat with __images__ example:
+1. **Chat with Images**: Demonstrates querying documents with embedded images.
+2. **Chat with PDFs and Tables**: Shows interactions with documents containing both unstructured text and structured tables.
 
-https://github.com/exactlab/exact-rag/assets/43796979/d8daaa12-664b-4a38-9959-e79f752a03b1
+## Running Tests
 
-Chat with __PDF__ and __Tables__:
+To execute tests, ensure `dev` dependencies are installed:
 
-https://github.com/exactlab/exact-rag/assets/43796979/dd5c6737-99bf-4fa1-b30e-1d3e0d22b2d7
+```bash
+poetry install --with-dev # -E audio -E image
+```
 
+Run tests with:
 
+```bash
+poetry run pytest tests/
+```
 
-## Tests
+---
 
-To run the tests:
-* be sure to have install the `dev` dependecies with:
-    ```bash
-    poetry install --with-dev # -E audio -E image
-    ```
-* then run:
-    ```bash
-    poetry run pytest tests/
-    ```
-
-## Contributing
-
-We welcome contributions! If you'd like to contribute to Exact-RAG, please follow our contribution [guidelines](CONTRIBUTING.md).
-
-
-* Fork the repo.
-* Clone the repo from your codebase
-* Choose your favorite editor and open the folder.
-* Create a new branch: git checkout -b  <branch-name>
-* Make changes, commit them and push it back up to github using git  push origin <your-branch-name>.
-* Open pull request on GitHub.
-
-
-## License
-
-This project is licensed under the MIT License.
